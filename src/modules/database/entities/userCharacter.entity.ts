@@ -1,7 +1,7 @@
 import { Entity, Column, ManyToOne, JoinColumn } from 'typeorm';
 import { UserEntity } from './user.entity';
 import { CharacterEntity } from './character.entity';
-import { CreateUserCharacterType } from '@shared/interface';
+import { UpdateUserCharacterType } from '@shared/interface';
 import { CustomEntity } from './base.entity';
 import { ApiProperty } from '@nestjs/swagger';
 import {
@@ -12,7 +12,7 @@ import {
 @Entity('user_characters')
 export class UserCharacterEntity
   extends CustomEntity
-  implements CreateUserCharacterType
+  implements UpdateUserCharacterType
 {
   @ManyToOne(() => UserEntity, (entity) => entity.id)
   @JoinColumn({

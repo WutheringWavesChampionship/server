@@ -1,7 +1,7 @@
 import { Entity, Column, OneToOne, JoinColumn } from 'typeorm';
 import { CustomEntity } from './base.entity';
 import { CreateWeaponType } from '@shared/interface';
-import { RarityEnum, STATS_TYPES, WEAPON_TYPES } from '@shared/constants';
+import { RarityEnum, StatTypeEnum, WeaponTypeEnum } from '@shared/constants';
 import { ImageEntity } from './image.entity';
 import { ApiProperty } from '@nestjs/swagger';
 
@@ -11,26 +11,26 @@ export class WeaponEntity extends CustomEntity implements CreateWeaponType {
   @Column({ unique: true })
   name!: string;
   @ApiProperty({
-    example: STATS_TYPES.ENERGY_REGENERATION,
+    example: StatTypeEnum.ENERGY_REGENERATION,
     enum: [
-      STATS_TYPES.ATTACK,
-      STATS_TYPES.CRIT_CHANCE,
-      STATS_TYPES.CRIT_DAMAGE,
-      STATS_TYPES.ENERGY_REGENERATION,
-      STATS_TYPES.DEFENSE,
+      StatTypeEnum.ATTACK,
+      StatTypeEnum.CRIT_CHANCE,
+      StatTypeEnum.CRIT_DAMAGE,
+      StatTypeEnum.ENERGY_REGENERATION,
+      StatTypeEnum.DEFENSE,
     ],
   })
   @Column({
     enum: [
-      STATS_TYPES.ATTACK,
-      STATS_TYPES.CRIT_CHANCE,
-      STATS_TYPES.CRIT_DAMAGE,
-      STATS_TYPES.ENERGY_REGENERATION,
-      STATS_TYPES.DEFENSE,
+      StatTypeEnum.ATTACK,
+      StatTypeEnum.CRIT_CHANCE,
+      StatTypeEnum.CRIT_DAMAGE,
+      StatTypeEnum.ENERGY_REGENERATION,
+      StatTypeEnum.DEFENSE,
     ],
     type: 'enum',
   })
-  mainStat!: STATS_TYPES;
+  mainStat!: StatTypeEnum;
 
   @ApiProperty({ example: 50.4 })
   @Column({ type: 'decimal' })
@@ -54,25 +54,25 @@ export class WeaponEntity extends CustomEntity implements CreateWeaponType {
 
   @Column({
     enum: [
-      WEAPON_TYPES.BROAD_BLADE,
-      WEAPON_TYPES.GAUNTLETS,
-      WEAPON_TYPES.PISTOLS,
-      WEAPON_TYPES.RECTIFIER,
-      WEAPON_TYPES.SWORD,
+      WeaponTypeEnum.BROAD_BLADE,
+      WeaponTypeEnum.GAUNTLETS,
+      WeaponTypeEnum.PISTOLS,
+      WeaponTypeEnum.RECTIFIER,
+      WeaponTypeEnum.SWORD,
     ],
     type: 'enum',
   })
   @ApiProperty({
-    example: WEAPON_TYPES.RECTIFIER,
+    example: WeaponTypeEnum.RECTIFIER,
     enum: [
-      WEAPON_TYPES.BROAD_BLADE,
-      WEAPON_TYPES.GAUNTLETS,
-      WEAPON_TYPES.PISTOLS,
-      WEAPON_TYPES.RECTIFIER,
-      WEAPON_TYPES.SWORD,
+      WeaponTypeEnum.BROAD_BLADE,
+      WeaponTypeEnum.GAUNTLETS,
+      WeaponTypeEnum.PISTOLS,
+      WeaponTypeEnum.RECTIFIER,
+      WeaponTypeEnum.SWORD,
     ],
   })
-  type!: WEAPON_TYPES;
+  type!: WeaponTypeEnum;
 
   @ApiProperty({
     example: RarityEnum.EPIC,

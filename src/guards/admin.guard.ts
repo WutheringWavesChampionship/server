@@ -29,7 +29,7 @@ export class AdminGuard implements CanActivate {
     }
     try {
       const verified = this.authService.verifyUser(token);
-      const isAdmin = await this.authService.findAdmin(verified.id);
+      const isAdmin = await this.authService.isAdmin(verified.id);
       const user = await this.authService.findById(verified.id);
       if (user && isAdmin) {
         req.user = user;

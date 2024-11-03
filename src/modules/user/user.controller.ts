@@ -27,13 +27,17 @@ import { ONE_MB_IN_BYTES } from '@shared/constants';
 import { IUser } from '@shared/interface';
 import { fileSchema, RegistrationDTO } from 'swagger';
 import { UserEntity } from 'modules/database';
+import { AuthService } from 'modules/auth';
 
 @ApiTags('User')
 @ApiBearerAuth()
 @UseGuards(AuthGuard)
 @Controller()
 export class UserController {
-  constructor(private service: UserService) {}
+  constructor(
+    private service: UserService,
+    private authService: AuthService,
+  ) {}
 
   @ApiOperation({
     summary: 'Get me',
@@ -41,7 +45,7 @@ export class UserController {
   })
   @ApiResponse({ status: 200, type: UserEntity })
   @Get(API_ROUTES[API_ROUTES_ENUM.ME])
-  create(@Req() { user }: { user: IUser }) {
+  getMe(@Req() { user }: { user: IUser }) {
     return user;
   }
 
@@ -112,5 +116,15 @@ export class UserController {
     // @Req() { user }: { user: IUser },
   ) {
     return this.service.updateUserImage({ data: file.buffer, id });
+  }
+
+  @ApiOperation({
+    summary: 'Is user admin',
+  })
+  @UseGuards(AuthGuard)
+  @ApiResponse({ status: 200 })
+  @Get(API_ROUTES[API_ROUTES_ENUM.ME_IS_ADMIN])
+  isAdmin(@Req() { user }: { user: IUser }) {
+    return this.authService.isAdmin(user.id);
   }
 }

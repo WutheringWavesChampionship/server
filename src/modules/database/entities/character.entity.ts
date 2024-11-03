@@ -1,7 +1,7 @@
 import { Entity, Column, OneToOne, JoinColumn } from 'typeorm';
 import { CustomEntity } from './base.entity';
 import { CreateCharacterType } from '@shared/interface';
-import { ElementEnum, RarityEnum, WEAPON_TYPES } from '@shared/constants';
+import { ElementEnum, RarityEnum, WeaponTypeEnum } from '@shared/constants';
 import { ImageEntity } from './image.entity';
 import { ApiProperty } from '@nestjs/swagger';
 
@@ -20,23 +20,23 @@ export class CharacterEntity
   @JoinColumn({
     name: 'imageId',
   })
-  image!: ImageEntity;
+  image!: string;
   @ApiProperty({ example: 1 })
-  @Column()
+  @Column({ nullable: true })
   imageId: number;
 
   @Column({
     enum: [
-      WEAPON_TYPES.BROAD_BLADE,
-      WEAPON_TYPES.GAUNTLETS,
-      WEAPON_TYPES.PISTOLS,
-      WEAPON_TYPES.RECTIFIER,
-      WEAPON_TYPES.SWORD,
+      WeaponTypeEnum.BROAD_BLADE,
+      WeaponTypeEnum.GAUNTLETS,
+      WeaponTypeEnum.PISTOLS,
+      WeaponTypeEnum.RECTIFIER,
+      WeaponTypeEnum.SWORD,
     ],
     type: 'enum',
   })
-  @ApiProperty({ example: WEAPON_TYPES.SWORD, enum: WEAPON_TYPES })
-  weaponType!: WEAPON_TYPES;
+  @ApiProperty({ example: WeaponTypeEnum.SWORD, enum: WeaponTypeEnum })
+  weaponType!: WeaponTypeEnum;
 
   @Column({
     enum: [

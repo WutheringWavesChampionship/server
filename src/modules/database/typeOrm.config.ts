@@ -8,6 +8,7 @@ import {
   WeaponEntity,
   AdminEntity,
 } from './entities';
+import * as Migrations from './migrations';
 
 export const typeOrmConfig = () => {
   const host = process.env.POSTGRES_HOST;
@@ -37,6 +38,8 @@ export const typeOrmConfig = () => {
     ssl,
     url,
     synchronize: true,
+    migrationsRun: true,
     type: 'postgres',
+    migrations: Object.values(Migrations),
   });
 };

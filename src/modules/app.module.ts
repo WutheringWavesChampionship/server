@@ -4,6 +4,9 @@ import { typeOrmConfig } from './database';
 import { ImageModule } from './image/image.module';
 import { AuthModule } from './auth';
 import { UserModule } from './user/user.module';
+import { CharacterModule } from './characters/character.module';
+import { UserCharacterModule } from './userCharacter/userCharacter.module';
+import { UserWeaponModule } from './userWeapon/userWeapon.module';
 
 @Module({
   controllers: [],
@@ -16,6 +19,9 @@ import { UserModule } from './user/user.module';
     ImageModule,
     AuthModule,
     UserModule,
+    CharacterModule,
+    UserCharacterModule,
+    UserWeaponModule,
   ],
 })
 export class AppModule {}

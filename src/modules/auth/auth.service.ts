@@ -60,18 +60,14 @@ export class AuthService {
     return user;
   }
 
-  async registration({ username, password, photo_url }: RegistrationDTO) {
+  async registration({ username, password }: RegistrationDTO) {
     const hashPassword = await hash(password, HASH_ROUNDS);
     const newUser = this.userRepository.create({
       username,
       password: hashPassword,
       auth_date: new Date(),
     });
-    if (photo_url) {
-      const newImage = this.imageRepository.create({ url: photo_url });
-      const imageId = (await this.imageRepository.save(newImage)).id;
-      newUser.imageId = imageId;
-    }
+
     const user = await this.userRepository.save(newUser);
     return this.generateToken(user);
   }
@@ -91,7 +87,7 @@ export class AuthService {
     }
   }
 
-  async findAdmin(id: number) {
+  async isAdmin(id: number) {
     return this.adminRepository.exists({ where: { userId: id } });
   }
 }

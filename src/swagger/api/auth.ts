@@ -18,9 +18,6 @@ export class RegistrationDTO
 
   @ApiProperty({ example: 'admin' })
   username: string;
-
-  @ApiProperty({ example: 'https://path/to/photo.google.com' })
-  photo_url?: string;
 }
 
 export class TokenDTO {

@@ -5,7 +5,6 @@ import {
   NotFoundException,
 } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { API_ROUTES, API_ROUTES_ENUM } from '@shared/constants/api';
 import { UploadImageProps } from '@shared/interface';
 import { Response } from 'express';
 import { storage } from 'firebase-admin';
@@ -32,18 +31,10 @@ export class ImageService {
   async createImage({ basePath, data, userId }: CreatingImageProps) {
     const filePath = await this.uploadImage({ basePath, data });
     const entity = this.imageRepository.create({
-      url: API_ROUTES[API_ROUTES_ENUM.IMAGE_CURRENT],
       filePath,
     });
     Logger.log(`user id: ${userId} upload new image id: ${entity.id}`, 'Image');
     return this.imageRepository.save(entity);
-  }
-
-  async createExternalImage(url: string) {
-    const entity = this.imageRepository.create({
-      url,
-    });
-    this.imageRepository.save(entity);
   }
 
   async updateImage({ data, id, userId, basePath }: UpdateImageProps) {
