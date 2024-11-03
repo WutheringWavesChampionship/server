@@ -3,12 +3,14 @@ import { CustomEntity } from './base.entity';
 import { CreateCharacterType } from '@shared/interface';
 import { ElementEnum, RarityEnum, WEAPON_TYPES } from '@shared/constants';
 import { ImageEntity } from './image.entity';
+import { ApiProperty } from '@nestjs/swagger';
 
 @Entity('characters')
 export class CharacterEntity
   extends CustomEntity
   implements CreateCharacterType
 {
+  @ApiProperty({ example: 'camelia' })
   @Column({ unique: true })
   name!: string;
 
@@ -19,6 +21,7 @@ export class CharacterEntity
     name: 'imageId',
   })
   image!: ImageEntity;
+  @ApiProperty({ example: 1 })
   @Column()
   imageId: number;
 
@@ -32,6 +35,7 @@ export class CharacterEntity
     ],
     type: 'enum',
   })
+  @ApiProperty({ example: WEAPON_TYPES.SWORD, enum: WEAPON_TYPES })
   weaponType!: WEAPON_TYPES;
 
   @Column({
@@ -45,12 +49,17 @@ export class CharacterEntity
     ],
     type: 'enum',
   })
+  @ApiProperty({ example: ElementEnum.HAVOC, enum: ElementEnum })
   element!: ElementEnum;
 
   @Column({
     enum: [RarityEnum.LEGENDARY, RarityEnum.EPIC],
     type: 'enum',
     default: RarityEnum.EPIC,
+  })
+  @ApiProperty({
+    example: RarityEnum.LEGENDARY,
+    enum: [RarityEnum.LEGENDARY, RarityEnum.EPIC],
   })
   rarity!: RarityEnum.LEGENDARY | RarityEnum.EPIC;
 }
