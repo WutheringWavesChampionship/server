@@ -2,14 +2,15 @@ FROM node:20
 
 WORKDIR /app
 
+COPY . ./
 COPY package*.json ./
-COPY . .
+COPY package.json yarn.lock* package-lock.json* pnpm-lock.yaml* ./
+COPY .gitmodules ./
 
-RUN git submodule update --init
+RUN npm run init-submodules
 
-RUN npm install
+RUN corepack enable pnpm && pnpm install
 
-
-RUN npm run build
+RUN corepack enable pnpm && pnpm run build
 
 CMD ["npm", "run", "start"]

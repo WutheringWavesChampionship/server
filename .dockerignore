@@ -1,0 +1,12 @@
+extractedTranslations/*
+node_modules
+.idea
+.vscode
+/storybook-static
+.loki/report.html
+.loki/report.json
+/reports/unit
+*storybook.log
+.husky
+/reports
+.dist
