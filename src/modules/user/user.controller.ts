@@ -24,7 +24,7 @@ import { API_ROUTES, API_ROUTES_ENUM } from '@shared/constants/api';
 import { AdminGuard, AuthGuard } from '@guards/index';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { ONE_MB_IN_BYTES } from '@shared/constants';
-import { IUser } from '@shared/interface';
+import { UserType } from '@shared/interface';
 import { fileSchema, RegistrationDTO } from 'swagger';
 import { UserEntity } from 'modules/database';
 import { AuthService } from 'modules/auth';
@@ -45,7 +45,7 @@ export class UserController {
   })
   @ApiResponse({ status: 200, type: UserEntity })
   @Get(API_ROUTES[API_ROUTES_ENUM.ME])
-  getMe(@Req() { user }: { user: IUser }) {
+  getMe(@Req() { user }: { user: UserType }) {
     return user;
   }
 
@@ -64,7 +64,7 @@ export class UserController {
   )
   uploadImage(
     @UploadedFile() file: Express.Multer.File,
-    @Req() { user }: { user: IUser },
+    @Req() { user }: { user: UserType },
   ) {
     return this.service.updateUserImage({ data: file.buffer, id: user.id });
   }
@@ -75,7 +75,7 @@ export class UserController {
   })
   @ApiResponse({ status: 200 })
   @Patch(API_ROUTES[API_ROUTES_ENUM.ME])
-  updateMe(@Body() data: RegistrationDTO, @Req() { user }: { user: IUser }) {
+  updateMe(@Body() data: RegistrationDTO, @Req() { user }: { user: UserType }) {
     return this.service.updateUser({ id: user.id, ...data });
   }
 
@@ -124,7 +124,7 @@ export class UserController {
   @UseGuards(AuthGuard)
   @ApiResponse({ status: 200 })
   @Get(API_ROUTES[API_ROUTES_ENUM.ME_IS_ADMIN])
-  isAdmin(@Req() { user }: { user: IUser }) {
+  isAdmin(@Req() { user }: { user: UserType }) {
     return this.authService.isAdmin(user.id);
   }
 }

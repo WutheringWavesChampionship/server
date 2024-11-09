@@ -19,7 +19,7 @@ import { UserCharacterService } from './userCharacter.service';
 import { API_ROUTES, API_ROUTES_ENUM } from '@shared/constants/api';
 import { CharacterEntity } from 'modules/database';
 import { AuthGuard } from '@guards/auth.guard';
-import { IUser } from '@shared/interface';
+import { UserType } from '@shared/interface';
 import { CreateMyCharacterDTO, UpdateUserCharacterDTO } from 'swagger';
 
 @ApiTags('User Characters')
@@ -34,7 +34,7 @@ export class UserCharacterController {
   })
   @ApiResponse({ status: 201, type: [CharacterEntity] })
   @Get(API_ROUTES[API_ROUTES_ENUM.MY_CHARACTERS])
-  getAllMyCharacters(@Req() { user }: { user: IUser }) {
+  getAllMyCharacters(@Req() { user }: { user: UserType }) {
     return this.service.getUserCharacters(user.id, false);
   }
 
@@ -54,7 +54,7 @@ export class UserCharacterController {
   @Post(API_ROUTES[API_ROUTES_ENUM.MY_CHARACTERS])
   createMyCharacter(
     @Body() { characterId }: CreateMyCharacterDTO,
-    @Req() { user }: { user: IUser },
+    @Req() { user }: { user: UserType },
   ) {
     return this.service.createUserCharacter({ characterId, userId: user.id });
   }
@@ -67,7 +67,7 @@ export class UserCharacterController {
   updateMyCharacter(
     @Body() data: UpdateUserCharacterDTO,
     @Param('id', ParseIntPipe) id: number,
-    @Req() { user }: { user: IUser },
+    @Req() { user }: { user: UserType },
   ) {
     return this.service.updateUserCharacter({ ...data, id, userId: user.id });
   }

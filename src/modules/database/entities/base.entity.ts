@@ -1,4 +1,5 @@
 import { ApiProperty } from '@nestjs/swagger';
+import { IBaseEntity } from '@shared/interface/baseEntity';
 import {
   CreateDateColumn,
   UpdateDateColumn,
@@ -6,7 +7,7 @@ import {
   BaseEntity,
 } from 'typeorm';
 
-export class CustomEntity extends BaseEntity {
+export class CustomEntity extends BaseEntity implements IBaseEntity {
   @ApiProperty({ example: 1 })
   @PrimaryGeneratedColumn()
   id: number;

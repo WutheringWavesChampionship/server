@@ -19,7 +19,7 @@ import { UserWeaponService } from './userWeapon.service';
 import { API_ROUTES, API_ROUTES_ENUM } from '@shared/constants/api';
 import { WeaponEntity } from 'modules/database';
 import { AuthGuard } from '@guards/auth.guard';
-import { IUser } from '@shared/interface';
+import { UserType } from '@shared/interface';
 import { CreateMyWeaponDTO, UpdateUserWeaponDTO } from 'swagger';
 
 @ApiTags('User weapons')
@@ -34,7 +34,7 @@ export class UserWeaponController {
   })
   @ApiResponse({ status: 201, type: [WeaponEntity] })
   @Get(API_ROUTES[API_ROUTES_ENUM.MY_WEAPONS])
-  getAllMyWeapons(@Req() { user }: { user: IUser }) {
+  getAllMyWeapons(@Req() { user }: { user: UserType }) {
     return this.service.getUserWeapons(user.id, false);
   }
 
@@ -54,7 +54,7 @@ export class UserWeaponController {
   @Post(API_ROUTES[API_ROUTES_ENUM.MY_WEAPONS])
   createMyCharacter(
     @Body() { weaponId }: CreateMyWeaponDTO,
-    @Req() { user }: { user: IUser },
+    @Req() { user }: { user: UserType },
   ) {
     return this.service.createUserWeapon({ weaponId, userId: user.id });
   }
@@ -67,7 +67,7 @@ export class UserWeaponController {
   updateMyWeapon(
     @Body() data: UpdateUserWeaponDTO,
     @Param('id', ParseIntPipe) id: number,
-    @Req() { user }: { user: IUser },
+    @Req() { user }: { user: UserType },
   ) {
     return this.service.updateUserWeapon({ ...data, id, userId: user.id });
   }
