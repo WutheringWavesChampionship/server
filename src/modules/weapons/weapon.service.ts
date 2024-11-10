@@ -20,6 +20,12 @@ export class WeaponService {
   async getWeapon(id: number) {
     const entity = await this.weaponRepository.findOneBy({ id });
     if (entity) {
+      if (entity.imageId) {
+        entity.image = API_ROUTES[API_ROUTES_ENUM.IMAGE_CURRENT].replace(
+          ':id',
+          String(entity.imageId),
+        );
+      }
       return entity;
     } else {
       throw new NotFoundException();

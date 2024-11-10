@@ -24,14 +24,14 @@ export class UserWeaponService {
       .where('userWeapon.userId = :userId', { userId: id })
       .getMany();
     return data.map((el) => {
-      const character = { ...el.weapon };
-      character.image = el.weapon.imageId
+      const weapon = { ...el.weapon };
+      weapon.image = el.weapon.imageId
         ? API_ROUTES[API_ROUTES_ENUM.IMAGE_CURRENT].replace(
             ':id',
             String(el.weapon.imageId),
           )
         : undefined;
-      return { ...el, character };
+      return { ...el, weapon };
     });
   }
 

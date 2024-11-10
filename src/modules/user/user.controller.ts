@@ -46,7 +46,15 @@ export class UserController {
   @ApiResponse({ status: 200, type: UserEntity })
   @Get(API_ROUTES[API_ROUTES_ENUM.ME])
   getMe(@Req() { user }: { user: UserType }) {
-    return user;
+    return {
+      ...user,
+      image: user.imageId
+        ? API_ROUTES[API_ROUTES_ENUM.IMAGE_CURRENT].replace(
+            ':id',
+            String(user.imageId),
+          )
+        : undefined,
+    };
   }
 
   @ApiOperation({

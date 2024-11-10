@@ -1,11 +1,11 @@
 import { Entity, Column, OneToOne, JoinColumn } from 'typeorm';
 import { CustomEntity } from './base.entity';
-import { CreateUserType } from '@shared/interface';
+import { UserType } from '@shared/interface';
 import { ImageEntity } from './image.entity';
 import { ApiProperty } from '@nestjs/swagger';
 
 @Entity('users')
-export class UserEntity extends CustomEntity implements CreateUserType {
+export class UserEntity extends CustomEntity implements UserType {
   @Column({ unique: true })
   @ApiProperty({ example: 'admin' })
   username!: string;
@@ -20,7 +20,7 @@ export class UserEntity extends CustomEntity implements CreateUserType {
   @JoinColumn({
     name: 'imageId',
   })
-  image!: ImageEntity;
+  image!: string;
   @ApiProperty({ example: 1 })
   @Column({ nullable: true })
   imageId?: number;

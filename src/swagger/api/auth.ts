@@ -1,5 +1,5 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { CreateUserType, LoginUserType } from '@shared/interface';
+import { RegistrationUserType, LoginUserType } from '@shared/interface';
 
 export class LoginDTO implements LoginUserType {
   @ApiProperty({ example: 'qweQWE123' })
@@ -10,8 +10,7 @@ export class LoginDTO implements LoginUserType {
 }
 
 export class RegistrationDTO
-  implements
-    Required<Omit<CreateUserType, 'auth_date' | 'telegram_id' | 'photo_url'>>
+  implements Omit<RegistrationUserType, 'password_confirmation'>
 {
   @ApiProperty({ example: 'qweQWE123' })
   password: string;

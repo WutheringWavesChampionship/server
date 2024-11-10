@@ -8,9 +8,7 @@ import { Logger } from '@nestjs/common';
 
 async function start() {
   const app = await NestFactory.create(AppModule, {
-    cors: {
-      origin: ['localhost'],
-    },
+    cors: true,
   });
   const configService: ConfigService = app.get(ConfigService);
 

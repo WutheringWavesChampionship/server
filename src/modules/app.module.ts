@@ -7,6 +7,7 @@ import { UserModule } from './user/user.module';
 import { CharacterModule } from './characters/character.module';
 import { UserCharacterModule } from './userCharacter/userCharacter.module';
 import { UserWeaponModule } from './userWeapon/userWeapon.module';
+import { WeaponModule } from './weapons/weapon.module';
 
 @Module({
   controllers: [],
@@ -20,6 +21,7 @@ import { UserWeaponModule } from './userWeapon/userWeapon.module';
     AuthModule,
     UserModule,
     CharacterModule,
+    WeaponModule,
     UserCharacterModule,
     UserWeaponModule,
   ],

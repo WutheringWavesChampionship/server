@@ -1,6 +1,7 @@
 import { HASH_ROUNDS } from '@constants/hash';
 import { HttpException, Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
+import { API_ROUTES, API_ROUTES_ENUM } from '@shared/constants/api';
 import { CreateUserType } from '@shared/interface';
 import { hash } from 'bcryptjs';
 import { UserEntity } from 'modules/database';
@@ -21,7 +22,15 @@ export class UserService {
     const user = await this.userRepository.findOneBy({ id });
     if (user) {
       delete user.password;
-      return user;
+      return {
+        ...user,
+        image: user.imageId
+          ? API_ROUTES[API_ROUTES_ENUM.IMAGE_CURRENT].replace(
+              ':id',
+              String(user.imageId),
+            )
+          : undefined,
+      };
     } else {
       throw new NotFoundException();
     }
@@ -37,7 +46,7 @@ export class UserService {
     if (!user) {
       throw new NotFoundException();
     }
-    if (password) {
+    if (password && password !== '') {
       const hashPassword = await hash(password, HASH_ROUNDS);
       user.password = hashPassword;
     }
@@ -67,7 +76,16 @@ export class UserService {
       const image = await this.imageService.createImage({ basePath, data });
       user.imageId = image.id;
     }
-    await this.userRepository.save(user);
+    const result = await this.userRepository.save(user);
+    return {
+      ...result,
+      image: result.imageId
+        ? API_ROUTES[API_ROUTES_ENUM.IMAGE_CURRENT].replace(
+            ':id',
+            String(result.imageId),
+          )
+        : undefined,
+    };
   }
 }
 
