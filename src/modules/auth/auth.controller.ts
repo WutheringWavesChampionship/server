@@ -8,26 +8,6 @@ import { LoginDTO, RegistrationDTO, TokenDTO } from 'swagger';
 @Controller()
 export class AuthController {
   constructor(private authService: AuthService) {}
-  /* @ApiOperation({
-    summary: 'Authorization user with tg',
-  })
-  @ApiResponse({ status: 200, type: TokenScheme })
-  @UseGuards(AuthTelegramGuard)
-  @Post(tgLogin.route)
-  @UsePipes(new ZodValidationPipe(authTelegramScheme))
-  login(@Body() data: TelegramAuthDto) {
-    return this.authService.telegramAuth(data);
-  } */
-
-  // @ApiOperation({
-  //   summary: 'Delete user',
-  // })
-  // @ApiResponse({ status: 200, type: TokenScheme })
-  // @Delete(API_ROUTES[API_ROUTES_ENUM.USER_CURRENT])
-  // delete(@Param('id', ParseIntPipe) id: number) {
-  //   return this.authService.deleteUser(id);
-  // }
-
   @ApiOperation({
     summary: 'login user',
   })

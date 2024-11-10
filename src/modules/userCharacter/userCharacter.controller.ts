@@ -17,7 +17,7 @@ import {
 } from '@nestjs/swagger';
 import { UserCharacterService } from './userCharacter.service';
 import { API_ROUTES, API_ROUTES_ENUM } from '@shared/constants/api';
-import { CharacterEntity } from 'modules/database';
+import { UserCharacterEntity } from 'modules/database';
 import { AuthGuard } from '@guards/auth.guard';
 import { UserType } from '@shared/interface';
 import { CreateMyCharacterDTO, UpdateUserCharacterDTO } from 'swagger';
@@ -32,25 +32,25 @@ export class UserCharacterController {
   @ApiOperation({
     summary: 'Get all my characters',
   })
-  @ApiResponse({ status: 201, type: [CharacterEntity] })
+  @ApiResponse({ status: 201, type: [UserCharacterEntity] })
   @Get(API_ROUTES[API_ROUTES_ENUM.MY_CHARACTERS])
   getAllMyCharacters(@Req() { user }: { user: UserType }) {
-    return this.service.getUserCharacters(user.id, false);
+    return this.service.getUserCharacters(user.id);
   }
 
   @ApiOperation({
     summary: 'Get all user characters',
   })
-  @ApiResponse({ status: 201, type: [CharacterEntity] })
+  @ApiResponse({ status: 201, type: [UserCharacterEntity] })
   @Get(API_ROUTES[API_ROUTES_ENUM.USER_CURRENT_CHARACTERS])
   getAllUserCharacters(@Param('id', ParseIntPipe) id: number) {
-    return this.service.getUserCharacters(id, true);
+    return this.service.getUserCharacters(id);
   }
 
   @ApiOperation({
     summary: 'Add to my characters',
   })
-  @ApiResponse({ status: 201, type: CharacterEntity })
+  @ApiResponse({ status: 201, type: UserCharacterEntity })
   @Post(API_ROUTES[API_ROUTES_ENUM.MY_CHARACTERS])
   createMyCharacter(
     @Body() { characterId }: CreateMyCharacterDTO,
@@ -62,7 +62,7 @@ export class UserCharacterController {
   @ApiOperation({
     summary: 'Update my characters',
   })
-  @ApiResponse({ status: 201, type: CharacterEntity })
+  @ApiResponse({ status: 201, type: UserCharacterEntity })
   @Patch(API_ROUTES[API_ROUTES_ENUM.MY_CHARACTERS_CURRENT])
   updateMyCharacter(
     @Body() data: UpdateUserCharacterDTO,
@@ -74,7 +74,7 @@ export class UserCharacterController {
   @ApiOperation({
     summary: 'Get my character',
   })
-  @ApiResponse({ status: 201, type: CharacterEntity })
+  @ApiResponse({ status: 201, type: UserCharacterEntity })
   @Get(API_ROUTES[API_ROUTES_ENUM.MY_CHARACTERS_CURRENT])
   getMyCharacter(@Param('id', ParseIntPipe) id: number) {
     return this.service.getUserCharacter(id);

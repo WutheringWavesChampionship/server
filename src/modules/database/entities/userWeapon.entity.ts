@@ -24,6 +24,7 @@ export class UserWeaponEntity
   @JoinColumn({
     name: 'weaponId',
   })
+  @ApiProperty()
   weapon!: WeaponEntity;
   @ApiProperty({ example: 1 })
   @Column()

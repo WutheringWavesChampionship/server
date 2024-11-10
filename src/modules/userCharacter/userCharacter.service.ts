@@ -6,7 +6,7 @@ import {
 import { InjectRepository } from '@nestjs/typeorm';
 import { API_ROUTES, API_ROUTES_ENUM } from '@shared/constants/api';
 import { AuthService } from 'modules/auth';
-import { CharacterEntity, UserCharacterEntity } from 'modules/database';
+import { UserCharacterEntity } from 'modules/database';
 import { CreateUserCharacterDTO, UpdateUserCharacterDTO } from 'swagger';
 import { Repository } from 'typeorm';
 
@@ -16,41 +16,23 @@ export class UserCharacterService {
     private authService: AuthService,
     @InjectRepository(UserCharacterEntity)
     private userCharacterRepository: Repository<UserCharacterEntity>,
-    @InjectRepository(CharacterEntity)
-    private characterRepository: Repository<CharacterEntity>,
   ) {}
-  async getUserCharacters(id: number, isOnlyExist: boolean = false) {
-    const query = this.characterRepository
-      .createQueryBuilder('character')
-      .leftJoinAndMapOne(
-        'character.userCharacter',
-        UserCharacterEntity,
-        'userCharacter',
-        'userCharacter.characterId = character.id AND userCharacter.userId = :userId',
-        { userId: id },
-      )
-      .orderBy(
-        'CASE WHEN userCharacter.id IS NOT NULL THEN 0 ELSE 1 END',
-        'ASC',
-      )
-      .addOrderBy('userCharacter.level', 'DESC')
-      .addOrderBy('character.element', 'ASC')
-      .addOrderBy(`weapon.rarity`, 'DESC')
-      .addOrderBy('userCharacter.constants', 'ASC')
-      .addOrderBy('character.id', 'ASC');
-    if (isOnlyExist) {
-      query.where('userCharacter.id IS NOT NULL');
-    }
-    const result = await query.getMany();
-    return result.map((el) => ({
-      ...el,
-      image: el.imageId
+  async getUserCharacters(id: number) {
+    const data = await this.userCharacterRepository
+      .createQueryBuilder('userCharacter')
+      .leftJoinAndSelect('userCharacter.character', 'character')
+      .where('userCharacter.userId = :userId', { userId: id })
+      .getMany();
+    return data.map((el) => {
+      const character = { ...el.character };
+      character.image = el.character.imageId
         ? API_ROUTES[API_ROUTES_ENUM.IMAGE_CURRENT].replace(
             ':id',
-            String(el.imageId),
+            String(el.character.imageId),
           )
-        : null,
-    }));
+        : undefined;
+      return { ...el, character };
+    });
   }
 
   async updateUserCharacter({

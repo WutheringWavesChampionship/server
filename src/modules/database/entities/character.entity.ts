@@ -20,10 +20,11 @@ export class CharacterEntity
   @JoinColumn({
     name: 'imageId',
   })
-  image!: string;
+  @ApiProperty()
+  image?: string;
   @ApiProperty({ example: 1 })
   @Column({ nullable: true })
-  imageId: number;
+  imageId?: number;
 
   @Column({
     enum: [

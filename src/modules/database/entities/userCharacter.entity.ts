@@ -27,6 +27,7 @@ export class UserCharacterEntity
   @JoinColumn({
     name: 'characterId',
   })
+  @ApiProperty()
   character!: CharacterEntity;
   @ApiProperty({ example: 1 })
   @Column()

@@ -47,10 +47,11 @@ export class WeaponEntity extends CustomEntity implements CreateWeaponType {
   @JoinColumn({
     name: 'imageId',
   })
-  image!: ImageEntity;
+  @ApiProperty()
+  image?: string;
   @ApiProperty({ example: 1 })
   @Column({ nullable: true })
-  imageId!: number;
+  imageId?: number;
 
   @Column({
     enum: [

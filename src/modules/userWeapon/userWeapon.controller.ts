@@ -17,7 +17,7 @@ import {
 } from '@nestjs/swagger';
 import { UserWeaponService } from './userWeapon.service';
 import { API_ROUTES, API_ROUTES_ENUM } from '@shared/constants/api';
-import { WeaponEntity } from 'modules/database';
+import { UserWeaponEntity } from 'modules/database';
 import { AuthGuard } from '@guards/auth.guard';
 import { UserType } from '@shared/interface';
 import { CreateMyWeaponDTO, UpdateUserWeaponDTO } from 'swagger';
@@ -32,25 +32,25 @@ export class UserWeaponController {
   @ApiOperation({
     summary: 'Get all my weapons',
   })
-  @ApiResponse({ status: 201, type: [WeaponEntity] })
+  @ApiResponse({ status: 201, type: [UserWeaponEntity] })
   @Get(API_ROUTES[API_ROUTES_ENUM.MY_WEAPONS])
   getAllMyWeapons(@Req() { user }: { user: UserType }) {
-    return this.service.getUserWeapons(user.id, false);
+    return this.service.getUserWeapons(user.id);
   }
 
   @ApiOperation({
     summary: 'Get all user weapons',
   })
-  @ApiResponse({ status: 201, type: [WeaponEntity] })
+  @ApiResponse({ status: 201, type: [UserWeaponEntity] })
   @Get(API_ROUTES[API_ROUTES_ENUM.USER_CURRENT_WEAPONS])
   getAllUserWeapons(@Param('id', ParseIntPipe) id: number) {
-    return this.service.getUserWeapons(id, true);
+    return this.service.getUserWeapons(id);
   }
 
   @ApiOperation({
     summary: 'Add to my weapons',
   })
-  @ApiResponse({ status: 201, type: WeaponEntity })
+  @ApiResponse({ status: 201, type: UserWeaponEntity })
   @Post(API_ROUTES[API_ROUTES_ENUM.MY_WEAPONS])
   createMyCharacter(
     @Body() { weaponId }: CreateMyWeaponDTO,
@@ -62,7 +62,7 @@ export class UserWeaponController {
   @ApiOperation({
     summary: 'Update my weapon',
   })
-  @ApiResponse({ status: 201, type: WeaponEntity })
+  @ApiResponse({ status: 201, type: UserWeaponEntity })
   @Patch(API_ROUTES[API_ROUTES_ENUM.MY_WEAPONS_CURRENT])
   updateMyWeapon(
     @Body() data: UpdateUserWeaponDTO,
@@ -74,7 +74,7 @@ export class UserWeaponController {
   @ApiOperation({
     summary: 'Get my weapon',
   })
-  @ApiResponse({ status: 201, type: WeaponEntity })
+  @ApiResponse({ status: 201, type: UserWeaponEntity })
   @Get(API_ROUTES[API_ROUTES_ENUM.MY_WEAPONS_CURRENT])
   getMyCharacter(@Param('id', ParseIntPipe) id: number) {
     return this.service.getUserWeapon(id);
