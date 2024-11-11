@@ -74,7 +74,7 @@ export class UserCharacterController {
   }
 
   @ApiOperation({
-    summary: 'Update my characters',
+    summary: 'Delete my characters',
   })
   @ApiResponse({ status: 201, type: UserCharacterEntity })
   @Delete(API_ROUTES[API_ROUTES_ENUM.MY_CHARACTERS_CURRENT])

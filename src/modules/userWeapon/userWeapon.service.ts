@@ -69,4 +69,16 @@ export class UserWeaponService {
   async getUserWeapon(id: number) {
     return this.userWeaponRepository.findOneBy({ id });
   }
+
+  async deleteUserWeapon(id: number, userId: number) {
+    const entity = await this.userWeaponRepository.findOneBy({ id });
+    if (!entity) {
+      throw new NotFoundException();
+    }
+    const isAdmin = await this.authService.isAdmin(userId);
+    if (!isAdmin && entity.userId !== userId) {
+      throw new ForbiddenException();
+    }
+    return this.userWeaponRepository.delete({ id });
+  }
 }
