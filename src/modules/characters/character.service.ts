@@ -86,6 +86,7 @@ export class CharacterService {
       entity.imageId = image.id;
     }
     await this.characterRepository.save(entity);
+    return entity.imageId;
   }
 
   async deleteCharacter(id: number) {

@@ -71,4 +71,16 @@ export class UserCharacterService {
   async getUserCharacter(id: number) {
     return this.userCharacterRepository.findOneBy({ id });
   }
+
+  async deleteUserCharacter(id: number, userId: number) {
+    const entity = await this.userCharacterRepository.findOneBy({ id });
+    if (!entity) {
+      throw new NotFoundException();
+    }
+    const isAdmin = await this.authService.isAdmin(userId);
+    if (!isAdmin && entity.userId !== userId) {
+      throw new ForbiddenException();
+    }
+    return this.userCharacterRepository.delete({ id });
+  }
 }

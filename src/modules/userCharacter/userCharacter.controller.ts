@@ -8,6 +8,7 @@ import {
   Patch,
   Param,
   ParseIntPipe,
+  Delete,
 } from '@nestjs/common';
 import {
   ApiBearerAuth,
@@ -71,6 +72,19 @@ export class UserCharacterController {
   ) {
     return this.service.updateUserCharacter({ ...data, id, userId: user.id });
   }
+
+  @ApiOperation({
+    summary: 'Update my characters',
+  })
+  @ApiResponse({ status: 201, type: UserCharacterEntity })
+  @Delete(API_ROUTES[API_ROUTES_ENUM.MY_CHARACTERS_CURRENT])
+  deleteMyCharacter(
+    @Param('id', ParseIntPipe) id: number,
+    @Req() { user }: { user: UserType },
+  ) {
+    return this.service.deleteUserCharacter(id, user.id);
+  }
+
   @ApiOperation({
     summary: 'Get my character',
   })
