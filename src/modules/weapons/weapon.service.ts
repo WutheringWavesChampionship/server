@@ -17,6 +17,11 @@ export class WeaponService {
     private imageService: ImageService,
   ) {}
 
+  createWeapon(data: CreateWeaponDTO) {
+    const entity = this.weaponRepository.create(data);
+    return this.weaponRepository.save(entity);
+  }
+
   async getWeapon(id: number) {
     const entity = await this.weaponRepository.findOneBy({ id });
     if (entity) {

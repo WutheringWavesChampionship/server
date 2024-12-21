@@ -17,6 +17,11 @@ export class CharacterService {
     private imageService: ImageService,
   ) {}
 
+  createCharacter(data: CreateCharacterDTO) {
+    const entity = this.characterRepository.create(data);
+    return this.characterRepository.save(entity);
+  }
+
   async getCharacter(id: number) {
     const entity = await this.characterRepository.findOneBy({ id });
     if (entity) {

@@ -34,6 +34,20 @@ export class WeaponController {
   constructor(private service: WeaponService) {}
 
   @ApiOperation({
+    summary: 'Create weapon',
+  })
+  @ApiResponse({ status: 200, type: WeaponEntity })
+  @UseGuards(AdminGuard)
+  @ApiTags('Admins commands')
+  @Post(API_ROUTES[API_ROUTES_ENUM.WEAPONS_LIST])
+  create(
+    @Body() data: CreateWeaponDTO,
+    // @Req() { user }: { user: IUser },
+  ) {
+    return this.service.createWeapon(data);
+  }
+
+  @ApiOperation({
     summary: 'Get all weapons',
   })
   @ApiResponse({ status: 201, type: [WeaponEntity] })

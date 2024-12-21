@@ -75,7 +75,6 @@ export class ImageService {
   }
 
   async getImage({ id, res }: GetImage) {
-    Logger.log('Get image', 'Image');
     const image = await this.imageRepository.findOneBy({ id });
     if (!image || !image.filePath) {
       throw new NotFoundException({ image: id });

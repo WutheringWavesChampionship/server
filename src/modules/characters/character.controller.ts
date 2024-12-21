@@ -70,6 +70,20 @@ export class CharacterController {
   }
 
   @ApiOperation({
+    summary: 'Create character',
+  })
+  @ApiResponse({ status: 200, type: CharacterEntity })
+  @UseGuards(AdminGuard)
+  @ApiTags('Admins commands')
+  @Post(API_ROUTES[API_ROUTES_ENUM.CHARACTERS_LIST])
+  create(
+    @Body() data: CreateCharacterDTO,
+    // @Req() { user }: { user: IUser },
+  ) {
+    return this.service.createCharacter(data);
+  }
+
+  @ApiOperation({
     summary: 'Update character image',
   })
   @UseGuards(AdminGuard)
@@ -97,7 +111,7 @@ export class CharacterController {
   @ApiTags('Admins commands')
   @ApiResponse({ status: 200, type: CharacterEntity })
   @UseGuards(AdminGuard)
-  @Delete(API_ROUTES[API_ROUTES_ENUM.WEAPONS_CURRENT])
+  @Delete(API_ROUTES[API_ROUTES_ENUM.CHARACTERS_CURRENT])
   deleteWeapon(@Param('id', ParseIntPipe) id: number) {
     return this.service.deleteCharacter(id);
   }
